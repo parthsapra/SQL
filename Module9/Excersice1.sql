@@ -1,57 +1,29 @@
-USE MarketDev;
-GO
 
-CREATE PROCEDURE Reports.GetProductColors
-AS
-SET NOCOUNT ON;
-BEGIN
-	SELECT DISTINCT P.Color
-	FROM Marketing.Product AS P
-	WHERE P.Color IS NOT NULL
-	ORDER BY P.Color;
-END
-GO
 
-SELECT SCHEMA_NAME(schema_id) AS SchemaName,
-       name AS ProcedureName
-FROM sys.procedures;
-GO
+create proc Reports.GetProductColors
+as set nocount on;
+begin
+select distinct Color from
+Marketing.Product where Color is not null
+end
 
-EXEC Reports.GetProductColors;
-GO
+exec Reports.GetProductColors;
 
-CREATE PROCEDURE Reports.GetProductsAndModels
-AS
-SET NOCOUNT ON;
-BEGIN
-	SELECT P.ProductID,
-		   P.ProductName,
-		   P.ProductNumber,
-		   P.SellStartDate,
-		   P.SellEndDate,
-		   P.Color,
-		   PM.ProductModelID,
-		   COALESCE(ED.Description,ID.Description,P.ProductName) AS EnglishDescription,
-		   COALESCE(FD.Description,ID.Description,P.ProductName) AS FrenchDescription,
-		   COALESCE(CD.Description,ID.Description,P.ProductName) AS ChineseDescription
-	FROM Marketing.Product AS P
-	LEFT OUTER JOIN Marketing.ProductModel AS PM
-	ON P.ProductModelID = PM.ProductModelID
-	LEFT OUTER JOIN Marketing.ProductDescription AS ED
-	ON PM.ProductModelID = ED.ProductModelID 
-	AND ED.LanguageID = 'en'
-	LEFT OUTER JOIN Marketing.ProductDescription AS FD
-	ON PM.ProductModelID = FD.ProductModelID 
-	AND FD.LanguageID = 'fr'
-	LEFT OUTER JOIN Marketing.ProductDescription AS CD
-	ON PM.ProductModelID = CD.ProductModelID 
-	AND CD.LanguageID = 'zh-cht'
-	LEFT OUTER JOIN Marketing.ProductDescription AS ID
-	ON PM.ProductModelID = ID.ProductModelID 
-	AND ID.LanguageID = ''
-	ORDER BY P.ProductID,PM.ProductModelID;
-END
-GO
 
-EXEC Reports.GetProductsAndModels;
-GO
+create procedure Reports.GetProductsAndModels 
+as set nocount on;
+begin
+select p.ProductID,p.ProductName,p.ProductNumber,p.SellStartDate,p.SellEndDate,p.Color,pm.ProductModelID,
+coalesce(ed.Description,id.Description,p.ProductName) as EnglishDescription,
+coalesce(fd.Description,id.Description,p.ProductName) as FrenchDescription,
+coalesce(cd.Description,id.Description,p.ProductName) as ChineseDescription
+from Marketing.Product as p
+left outer join Marketing.ProductModel as pm on p.ProductModelID=pm.ProductModelID 
+left outer join Marketing.ProductDescription as ed on pm.ProductModelID=ed.ProductModelID and ed.LanguageID='en'
+left outer join Marketing.ProductDescription as fd on pm.ProductModelID=fd.ProductModelID and fd.LanguageID='fr'
+left outer join Marketing.ProductDescription as cd on pm.ProductModelID=cd.ProductModelID and cd.LanguageID='zh-cht'
+left outer join Marketing.ProductDescription as id on pm.ProductModelID=id.ProductModelID and id.LanguageID=''
+order by p.ProductID,pm.ProductModelID;
+end
+
+exec Reports.GetProductsAndModels;

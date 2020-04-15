@@ -1,25 +1,17 @@
 Use MarketDev;
 GO
 
-CREATE PROCEDURE Marketing.GetProductsByColor
-@Color nvarchar(16)
-AS
-SET NOCOUNT ON;
-BEGIN
-	SELECT P.ProductID,
-	P.ProductName,
-	P.ListPrice AS Price,
-	P.Color,
-	P.Size,
-	P.SizeUnitMeasureCode AS UnitOfMeasure
-	FROM Marketing.Product AS P
-	WHERE (P.Color = @Color) OR (P.Color IS NULL AND @Color IS NULL)
-	ORDER BY ProductName;
-END
-GO
+create procedure Marketing.GetProductsByColor 
+@color nvarchar(16)
+as set nocount on;
+begin
+select p.ProductID,p.ProductName,p.ListPrice as Price, p.Color,p.Size,p.SizeUnitMeasureCode as UnitOfMeasure 
+from Marketing.Product as p
+where (p.Color=@color) or (p.Color is null and @color is null)
+order by ProductName;
+end
 
 EXEC Marketing.GetProductsByColor 'Blue';
-GO
+
 
 EXEC Marketing.GetProductsByColor NULL;
-GO

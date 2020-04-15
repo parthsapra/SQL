@@ -1,31 +1,21 @@
-USE AdventureWorks2016;
-GO
-
-CREATE VIEW [Production].OnlineProducts
-AS
-SELECT p.ProductID, p.Name, p.ProductNumber AS [Product Number], COALESCE(p.Color, 'N/A') AS Color,
-CASE p.DaysToManufacture
-WHEN 0 THEN 'In stock' 
-WHEN 1 THEN 'Overnight'
-WHEN 2 THEN '2 to 3 days delivery'
-ELSE 'Call us for a quote'
-END AS Availability,
-p.Size, p.SizeUnitMeasureCode AS [Unit of Measure], p.ListPrice AS Price, p.Weight
-FROM Production.Product AS p
-WHERE p.SellEndDate IS NULL AND p.SellStartDate IS NOT NULL;
-GO
 
 
-USE AdventureWorks2016;
-GO
 
-CREATE VIEW
-Production.AvailableModels
-AS
-SELECT p.ProductID AS [Product ID], p.Name, pm.ProductModelID AS [Product Model ID], pm.Name as [Product Model]
-FROM Production.Product AS p
-INNER JOIN Production.ProductModel AS pm
-ON p.ProductModelID = pm.ProductModelID
-WHERE p.SellEndDate IS NULL
-AND p.SellStartDate IS NOT NULL;
-GO
+create view Production.OnlineProducts as
+select ProductID, Name, ProductNumber as [Product Number], coalesce(Color, 'N/A') as Color,
+case DaysToManufacture
+when 0 then 'In stock' 
+when 1 then 'Overnight'
+when 2 then '2 to 3 days delivery'
+else 'Call us for a quote'
+end as Availability,
+Size, SizeUnitMeasureCode as [Unit of Measure],ListPrice as Price, Weight from Production.Product 
+where SellEndDate is null and SellStartDate is not null;
+
+
+create view Production.AvailableModels as
+select p.ProductID as [Product ID], p.Name, pm.ProductModelID as [Product Model ID], pm.Name as [Product Model]
+from Production.Product as p
+inner join Production.ProductModel as pm
+on p.ProductModelID = pm.ProductModelID
+where p.SellEndDate is null and p.SellStartDate is not null;

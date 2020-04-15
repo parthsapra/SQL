@@ -1,18 +1,14 @@
-USE AdventureWorks2016;
-GO
 
-CREATE VIEW Sales.NewCustomer
-AS
-SELECT CustomerID, FirstName, LastName 
-FROM Sales.CustomerPII;
-GO
+create view Sales.NewCustomer as
+select CustomerID, FirstName, LastName 
+from Sales.CustomerPII;
 
-INSERT INTO Sales.NewCustomer
-VALUES
+
+insert into Sales.NewCustomer
+values
 (100,'Test', 'T'),
 (101, 'Test2', 'T2');
-GO
 
 
-SELECT * FROM Sales.NewCustomer 
-ORDER BY CustomerID
+
+select * from Sales.NewCustomer order by CustomerID
