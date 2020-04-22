@@ -1,0 +1,6 @@
+C:\Users\Parth\source\repos\CLRTest\bin\Debug\CLRTest.dacpac
+C:\Users\Parth\source\repos\CLRTest\bin\Debug\CLRTest.dll
+C:\Users\Parth\source\repos\CLRTest\bin\Debug\CLRTest.pdb
+C:\Users\Parth\source\repos\CLRTest\obj\Debug\CLRTest.sqlprojAssemblyReference.cache
+C:\Users\Parth\source\repos\CLRTest\obj\Debug\CLRTest.dll
+C:\Users\Parth\source\repos\CLRTest\obj\Debug\CLRTest.pdb
